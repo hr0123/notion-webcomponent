@@ -1,4 +1,3 @@
-"use strict";
 // console.log("hi");
 function main() {
     const head = document.getElementById("head");
