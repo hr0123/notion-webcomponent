@@ -18,6 +18,10 @@ class TextInput extends HTMLElement {
 
       const inputId = String(Math.floor(Math.random() * 1000000000));
       wrapper.setAttribute("id", inputId);
+      // 📌방향키 이동 함수에 쓰려고 작성한건데, nextSibling 사용하게되면 지우기
+      Array.prototype.push(inputId);
+      const idArr = Array.prototype;
+      console.log(idArr);
 
       const textContainer = document.createElement("div");
       textContainer.setAttribute("class", "text-container");
@@ -33,12 +37,39 @@ class TextInput extends HTMLElement {
       text.setAttribute("placeholder", 'Type "/" for commands');
       textContainer.appendChild(dragHandler);
       textContainer.appendChild(text);
-      // textContainer.focus();
 
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
           (createWrapper().children[0].children[1] as HTMLDivElement).focus();
           e.preventDefault();
+        }
+      });
+
+      textContainer.addEventListener("keydown", (e: any) => {
+        // if (idArr.length <= 1) return;
+        if ((e as KeyboardEvent).key === "ArrowDown") {
+          // 📌nextSibling 사용하게되면 지우기
+          // const currentId = e.path[1].id;
+          // const nextId = idArr.find(
+          //   (el) => idArr.indexOf(el) === idArr.indexOf(currentId) + 1
+          // );
+          // const textContainer =
+          //   document.getElementsByClassName("text-container");
+          // // if(textContainer.id === nextId) {
+          // //   // focus()
+          // // }
+          // console.log(e);
+          // // nextText.focus();
+
+          // const currentFocus = document.activeElement;
+          // console.log(currentFocus);
+
+          const nextSibling = e.path[2].nextSibling;
+          nextSibling.focus();
+          console.log("arrow DOWN!!", nextSibling);
+        }
+        if ((e as KeyboardEvent).key === "ArrowUp") {
+          console.log("arrow UP!!");
         }
       });
 
