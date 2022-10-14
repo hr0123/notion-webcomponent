@@ -24,7 +24,7 @@
   max-width: 600px;
   width: 100%;
   display: flex;
-  flex-direction: row;
+  flex-direction: row-reverse;
   align-items: center;
   cursor: text;
   /* padding: 0.5rem 1.5rem; */
@@ -35,7 +35,8 @@
 }
 
 .draghandler {
-  width: 20px;
+  /* positin: static; */
+  /* width: 20px; */
   height: 20px;
   cursor: pointer;
   /* position: absolute; */

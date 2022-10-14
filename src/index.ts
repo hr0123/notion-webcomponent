@@ -27,15 +27,23 @@ class TextInput extends HTMLElement {
       textContainer.setAttribute("id", inputId);
       wrapper.appendChild(textContainer);
 
-      const dragHandler = document.createElement("img");
-      dragHandler.setAttribute("class", "draghandler");
-      dragHandler.setAttribute("src", "../public/images/drag.png");
       const text = document.createElement("div");
       text.setAttribute("class", "text");
       text.setAttribute("contenteditable", "true");
       text.setAttribute("placeholder", 'Type "/" for commands');
-      textContainer.appendChild(dragHandler);
       textContainer.appendChild(text);
+
+      text.addEventListener("mouseover", () => {
+        if (textContainer.children.length > 1) return;
+        const dragHandler = document.createElement("img");
+        dragHandler.setAttribute("class", "draghandler");
+        dragHandler.setAttribute("src", "../public/images/drag.png");
+        dragHandler.setAttribute("draggable", "true");
+        textContainer.appendChild(dragHandler);
+        textContainer.addEventListener("mouseleave", () => {
+          dragHandler.parentNode?.removeChild(dragHandler);
+        });
+      });
 
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
