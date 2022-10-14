@@ -33,7 +33,7 @@ class TextInput extends HTMLElement {
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     createWrapper().children[0].children[1].focus();
-                    console.log(shadow.activeElement);
+                    // console.log(shadow.activeElement);
                     e.preventDefault();
                 }
             });
@@ -41,11 +41,15 @@ class TextInput extends HTMLElement {
                 const currentFocusedId = e.path[1].id;
                 const currentFocused = shadow.getElementById(currentFocusedId);
                 if (e.key === "ArrowDown") {
+                    if (!currentFocused.nextElementSibling)
+                        return;
                     currentFocused.nextElementSibling.children[0]
                         .children[1].focus();
                     console.log("arrow DOWN!!");
                 }
                 if (e.key === "ArrowUp") {
+                    if (!currentFocused.previousElementSibling.children[0])
+                        return;
                     currentFocused.previousElementSibling.children[0]
                         .children[1].focus();
                     console.log("arrow UP!!");
