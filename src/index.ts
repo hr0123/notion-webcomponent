@@ -25,11 +25,13 @@ class TextInput extends HTMLElement {
       const textContainer = document.createElement("div");
       textContainer.setAttribute("class", "text-container");
       textContainer.setAttribute("id", inputId);
+      textContainer.setAttribute("draggable", "true");
       wrapper.appendChild(textContainer);
 
       const dragHandler = document.createElement("img");
       dragHandler.setAttribute("class", "draghandler-hidden");
       dragHandler.setAttribute("src", "../public/images/drag.png");
+      dragHandler.setAttribute("draggable", "true");
       const text = document.createElement("div");
       text.setAttribute("class", "text");
       text.setAttribute("contenteditable", "true");
@@ -44,6 +46,58 @@ class TextInput extends HTMLElement {
       textContainer.addEventListener("mouseleave", () => {
         console.log("MOUSE LEAVE");
         dragHandler.setAttribute("class", "draghandler-hidden");
+      });
+
+      textContainer.addEventListener("dragstart", (e: any) => {
+        let nowDragging;
+        let whereToDrop;
+        console.log("drag start", e.target);
+        nowDragging = e.target; //TextContainer
+        nowDragging.classList.add("nowdragging"); //drag동안 적용되는 Style
+        textContainer.addEventListener(
+          "dragover",
+          (e) => {
+            console.log("drag over", e.target);
+            e.preventDefault(); //drop가능하도록, 기본동작(다른EventLister들?) 막기(false는 이벤트 버블링 설정)
+          },
+          false
+        );
+        textContainer.addEventListener("dragenter", (e: any) => {
+          console.log("drag enter", e.target);
+          // drag해오다가 drop대상 위로 enter(진입하면) -> 강조Style 적용(class추가)
+          // if (e.target.classList.contains("dropzone")) {
+          //   e.target.classList.add("dragover");
+          // }
+        });
+        textContainer.addEventListener("dragleave", (e: any) => {
+          console.log("drag leave", e.target);
+          // drag해오다가 drop대상 밖으로 leave(벗어나면) -> 강조Style 종료(class제거)
+          // if (e.target.classList.contains("dropzone")) {
+          //   e.target.classList.remove("dragover");
+          // }
+        });
+        textContainer.addEventListener("drop", (e: any) => {
+          console.log("DROP!!", e.target);
+          // 기본동작(일부 요소의 링크 열기 등) 막기
+          e.preventDefault();
+          // drop대상을 변수에 저장
+          whereToDrop = e.target;
+          // drag해오던 요소가 drop대상 위에 drop되면
+          // if (e.target.classList.contains("dropzone")) {
+          //   // 1. 강조Style 종료(class제거)
+          //   // e.target.classList.remove("dragover");
+          //   e.target.parentNode.classList.remove("dragover");
+          //   // 2. drag 종료: drag해온요소로 drop대상을 replace(child제거)
+          //   nowDragging.parentNode.removeChild(nowDragging);
+          //   // 3. drag해온요소로 drop대상을 replace
+          //   // e.target.appendChild(nowDragging);
+          //   e.target.parentNode.appendChild(nowDragging);
+          // }
+        });
+        textContainer.addEventListener("dragend", (e: any) => {
+          console.log("drag end", e.target);
+          // e.target.classList.remove("nowdragging");
+        });
       });
 
       textContainer.addEventListener("keydown", (e: Event) => {
@@ -123,9 +177,7 @@ class TextInput extends HTMLElement {
         },
       ];
 
-      menuItems.map((item) => menu(item));
-
-      function menu(item) {
+      menuItems.map((item) => {
         const menuBlock = document.createElement("div");
         menuBlock.setAttribute("class", "menu-block");
         menuBlock.addEventListener("click", () => onClickMenu(item));
@@ -147,7 +199,7 @@ class TextInput extends HTMLElement {
         menuSummary.innerText = item.summary;
         menuNameWrapper.appendChild(menuName);
         menuNameWrapper.appendChild(menuSummary);
-      }
+      });
 
       function onClickMenu(item) {
         console.log("MENU CLICKED!", text);

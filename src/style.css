@@ -51,6 +51,21 @@
   bottom: 26px; */
 }
 
+.nowdragging {
+  opacity: 0.5;
+  background-color: green;
+}
+.dropzone {
+  width: 200px;
+  height: 20px;
+  background: blueviolet;
+  margin: 10px;
+  padding: 10px;
+}
+.dropzone.dragover {
+  background-color: purple;
+}
+
 .text {
   width: 100%;
   height: auto;
