@@ -1,21 +1,21 @@
-* {
-  /* background-color: yellow; */
+/* body {
   font-family: "Noto Sans KR", sans-serif;
   width: 100%;
   height: auto;
   display: flex;
-  place-self: center;
-}
+  place-items: center;
+} */
 
 .wrapper {
-  /* background-color: green; */
-  /* max-width: 650px; */
+  font-family: "Noto Sans KR", sans-serif;
+  max-width: 650px;
   width: 100%;
+  /* height: auto; */
   display: flex;
   flex-direction: column;
   justify-content: space-between;
   align-items: flex-start;
-  /* height: auto; */
+  margin: auto;
 }
 
 .text-container {
@@ -23,14 +23,15 @@
   margin: 0.5rem 0 0.5rem;
   max-width: 600px;
   width: 100%;
-  /* display: flex; */
-  /* flex-direction: row; */
-  /* align-items: center; */
+  display: flex;
+  flex-direction: row;
+  align-items: center;
   cursor: text;
   /* padding: 0.5rem 1.5rem; */
   white-space: pre-wrap;
   background-color: white;
   border-radius: 0.1em;
+  place-self: center;
 }
 
 .draghandler {
@@ -104,7 +105,7 @@
 }
 
 .menu-container {
-  /* margin-left: 25px; */
+  margin-left: 40px;
   padding: 4px 15px;
   /* position: absolute; */
   display: flex;
