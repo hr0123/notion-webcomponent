@@ -33,7 +33,7 @@ class TextInput extends HTMLElement {
       text.setAttribute("placeholder", 'Type "/" for commands');
       textContainer.appendChild(text);
 
-      text.addEventListener("mouseover", () => {
+      textContainer.addEventListener("mouseover", () => {
         if (textContainer.children.length > 1) return;
         const dragHandler = document.createElement("img");
         dragHandler.setAttribute("class", "draghandler");
@@ -47,7 +47,8 @@ class TextInput extends HTMLElement {
 
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
-          (createWrapper().children[0].children[1] as HTMLDivElement).focus();
+          console.log(createWrapper().children);
+          (createWrapper().children[1] as HTMLDivElement).focus();
           e.preventDefault();
         }
       });
@@ -60,17 +61,17 @@ class TextInput extends HTMLElement {
         ) as HTMLElement;
         if ((e as KeyboardEvent).key === "ArrowDown") {
           if (!currentFocused.nextElementSibling) return;
+          // currentFocused.nextElementSibling.children[0].children[1] as HTMLElement
           (
-            currentFocused.nextElementSibling.children[0]
-              .children[1] as HTMLElement
+            currentFocused.nextElementSibling.children[1] as HTMLElement
           ).focus();
           console.log("arrow DOWN!!");
         }
         if ((e as KeyboardEvent).key === "ArrowUp") {
-          if (!currentFocused.previousElementSibling.children[0]) return;
+          if (!currentFocused.previousElementSibling.children[1]) return;
+          // currentFocused.previousElementSibling.children[0].children[1] as HTMLElement
           (
-            currentFocused.previousElementSibling.children[0]
-              .children[1] as HTMLElement
+            currentFocused.previousElementSibling.children[0] as HTMLElement
           ).focus();
           console.log("arrow UP!!");
         }

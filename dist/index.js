@@ -26,7 +26,7 @@ class TextInput extends HTMLElement {
             text.setAttribute("contenteditable", "true");
             text.setAttribute("placeholder", 'Type "/" for commands');
             textContainer.appendChild(text);
-            text.addEventListener("mouseover", () => {
+            textContainer.addEventListener("mouseover", () => {
                 if (textContainer.children.length > 1)
                     return;
                 const dragHandler = document.createElement("img");
@@ -41,7 +41,8 @@ class TextInput extends HTMLElement {
             });
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
-                    createWrapper().children[0].children[1].focus();
+                    console.log(createWrapper().children);
+                    createWrapper().children[1].focus();
                     e.preventDefault();
                 }
             });
@@ -52,15 +53,15 @@ class TextInput extends HTMLElement {
                 if (e.key === "ArrowDown") {
                     if (!currentFocused.nextElementSibling)
                         return;
-                    currentFocused.nextElementSibling.children[0]
-                        .children[1].focus();
+                    // currentFocused.nextElementSibling.children[0].children[1] as HTMLElement
+                    currentFocused.nextElementSibling.children[1].focus();
                     console.log("arrow DOWN!!");
                 }
                 if (e.key === "ArrowUp") {
-                    if (!currentFocused.previousElementSibling.children[0])
+                    if (!currentFocused.previousElementSibling.children[1])
                         return;
-                    currentFocused.previousElementSibling.children[0]
-                        .children[1].focus();
+                    // currentFocused.previousElementSibling.children[0].children[1] as HTMLElement
+                    currentFocused.previousElementSibling.children[0].focus();
                     console.log("arrow UP!!");
                 }
             });
