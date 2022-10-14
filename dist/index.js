@@ -14,10 +14,9 @@ class TextInput extends HTMLElement {
             shadow.appendChild(wrapper);
             const inputId = String(Math.floor(Math.random() * 1000000000));
             wrapper.setAttribute("id", inputId);
-            // 📌방향키 이동 함수에 쓰려고 작성한건데, nextSibling 사용하게되면 지우기
-            Array.prototype.push(inputId);
-            const idArr = Array.prototype;
-            console.log(idArr);
+            // Array.prototype.push(inputId);
+            // const idArr = Array.prototype;
+            // console.log(idArr);
             const textContainer = document.createElement("div");
             textContainer.setAttribute("class", "text-container");
             textContainer.setAttribute("id", inputId);
@@ -34,31 +33,21 @@ class TextInput extends HTMLElement {
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     createWrapper().children[0].children[1].focus();
+                    console.log(shadow.activeElement);
                     e.preventDefault();
                 }
             });
             textContainer.addEventListener("keydown", (e) => {
-                // if (idArr.length <= 1) return;
+                const currentFocusedId = e.path[1].id;
+                const currentFocused = shadow.getElementById(currentFocusedId);
                 if (e.key === "ArrowDown") {
-                    // 📌nextSibling 사용하게되면 지우기
-                    // const currentId = e.path[1].id;
-                    // const nextId = idArr.find(
-                    //   (el) => idArr.indexOf(el) === idArr.indexOf(currentId) + 1
-                    // );
-                    // const textContainer =
-                    //   document.getElementsByClassName("text-container");
-                    // // if(textContainer.id === nextId) {
-                    // //   // focus()
-                    // // }
-                    // console.log(e);
-                    // // nextText.focus();
-                    // const currentFocus = document.activeElement;
-                    // console.log(currentFocus);
-                    const nextSibling = e.path[2].nextSibling;
-                    nextSibling.focus();
-                    console.log("arrow DOWN!!", nextSibling);
+                    currentFocused.nextElementSibling.children[0]
+                        .children[1].focus();
+                    console.log("arrow DOWN!!");
                 }
                 if (e.key === "ArrowUp") {
+                    currentFocused.previousElementSibling.children[0]
+                        .children[1].focus();
                     console.log("arrow UP!!");
                 }
             });
