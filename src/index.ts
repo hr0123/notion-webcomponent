@@ -40,12 +40,12 @@ class TextInput extends HTMLElement {
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
           (createWrapper().children[0].children[1] as HTMLDivElement).focus();
-          // console.log(shadow.activeElement);
           e.preventDefault();
         }
       });
 
       textContainer.addEventListener("keydown", (e: Event) => {
+        // console.log(shadow.activeElement);
         const currentFocusedId = (<any>e).path[1].id;
         const currentFocused = shadow.getElementById(
           currentFocusedId

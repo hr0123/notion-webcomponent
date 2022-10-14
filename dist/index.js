@@ -33,11 +33,11 @@ class TextInput extends HTMLElement {
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     createWrapper().children[0].children[1].focus();
-                    // console.log(shadow.activeElement);
                     e.preventDefault();
                 }
             });
             textContainer.addEventListener("keydown", (e) => {
+                // console.log(shadow.activeElement);
                 const currentFocusedId = e.path[1].id;
                 const currentFocused = shadow.getElementById(currentFocusedId);
                 if (e.key === "ArrowDown") {
