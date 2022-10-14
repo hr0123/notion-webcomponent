@@ -28,7 +28,7 @@ class TextInput extends HTMLElement {
       wrapper.appendChild(textContainer);
 
       const dragHandler = document.createElement("img");
-      dragHandler.setAttribute("class", "draghandler");
+      dragHandler.setAttribute("class", "draghandler-hidden");
       dragHandler.setAttribute("src", "../public/images/drag.png");
       const text = document.createElement("div");
       text.setAttribute("class", "text");
@@ -36,6 +36,15 @@ class TextInput extends HTMLElement {
       text.setAttribute("placeholder", 'Type "/" for commands');
       textContainer.appendChild(dragHandler);
       textContainer.appendChild(text);
+
+      textContainer.addEventListener("mouseover", () => {
+        console.log("MOUSE OVER");
+        dragHandler.setAttribute("class", "draghandler-show");
+      });
+      textContainer.addEventListener("mouseleave", () => {
+        console.log("MOUSE LEAVE");
+        dragHandler.setAttribute("class", "draghandler-hidden");
+      });
 
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
