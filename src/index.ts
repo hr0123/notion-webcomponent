@@ -48,57 +48,26 @@ class TextInput extends HTMLElement {
         dragHandler.setAttribute("class", "draghandler-hidden");
       });
 
-      textContainer.addEventListener("dragstart", (e: any) => {
-        let nowDragging;
-        let whereToDrop;
-        console.log("drag start", e.target);
-        nowDragging = e.target; //TextContainer
-        nowDragging.classList.add("nowdragging"); //drag동안 적용되는 Style
-        textContainer.addEventListener(
-          "dragover",
-          (e) => {
-            console.log("drag over", e.target);
-            e.preventDefault(); //drop가능하도록, 기본동작(다른EventListener들?) 막기(false는 이벤트 버블링 설정)
-          },
-          false
-        );
-        textContainer.addEventListener("dragenter", (e: any) => {
-          console.log("drag enter", e.target);
-          // drag해오다가 drop대상 위로 enter(진입하면) -> 강조Style 적용(class추가)
-          // if (e.target.classList.contains("dropzone")) {
-          //   e.target.classList.add("dragover");
-          // }
-        });
-        textContainer.addEventListener("dragleave", (e: any) => {
-          console.log("drag leave", e.target);
-          // drag해오다가 drop대상 밖으로 leave(벗어나면) -> 강조Style 종료(class제거)
-          // if (e.target.classList.contains("dropzone")) {
-          //   e.target.classList.remove("dragover");
-          // }
-        });
-        textContainer.addEventListener("drop", (e: any) => {
-          console.log("DROP!!", e.target);
-          // 기본동작(일부 요소의 링크 열기 등) 막기
-          e.preventDefault();
-          // drop대상을 변수에 저장
-          whereToDrop = e.target;
-          // drag해오던 요소가 drop대상 위에 drop되면
-          // if (e.target.classList.contains("dropzone")) {
-          //   // 1. 강조Style 종료(class제거)
-          //   // e.target.classList.remove("dragover");
-          //   e.target.parentNode.classList.remove("dragover");
-          //   // 2. drag 종료: drag해온요소로 drop대상을 replace(child제거)
-          //   nowDragging.parentNode.removeChild(nowDragging);
-          //   // 3. drag해온요소로 drop대상을 replace
-          //   // e.target.appendChild(nowDragging);
-          //   e.target.parentNode.appendChild(nowDragging);
-          // }
-        });
-        textContainer.addEventListener("dragend", (e: any) => {
-          console.log("drag end", e.target);
-          // e.target.classList.remove("nowdragging");
-        });
-      });
+      //https://developer.mozilla.org/ko/docs/Web/API/HTML_Drag_and_Drop_API#%EC%96%B4%EB%96%A4_%EA%B2%83%EC%9D%B4_draggable%EC%9D%B8%EC%A7%80_%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0
+      textContainer.ondragstart = handleDragStart;
+      textContainer.ondragover = handleDragOver;
+      textContainer.ondrop = handleDrop;
+      function handleDragStart(e) {
+        console.log("START", e.target.parentElement);
+        e.dataTransfer.setData("text/plain", e.target.parentElement.id);
+        e.dataTransfer.dropEffect = "move";
+      }
+      function handleDragOver(e) {
+        e.preventDefault();
+        e.dataTransfer.dropEffect = "move";
+        console.log("OVER", e.target.id); //올림당한 대상(id)
+      }
+      function handleDrop(e) {
+        e.preventDefault();
+        const data = e.dataTransfer.getData("text/plain"); //drag해온거 id
+        e.target.parentElement.appendChild(shadow.getElementById(data)); //drop대상의 child로 drag해온거 append
+        console.log("DROP", e.target); //e.target=drop대상(textContainer)
+      }
 
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
