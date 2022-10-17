@@ -49,9 +49,10 @@
 
 .text {
   width: 100%;
-  height: auto;
+  /* height: auto; */
   height: 20px;
   /* padding: 0.5rem 0.5rem; */
+  padding: 5px 0 0 5px;
   font-size: 16px;
   font-weight: 500;
   border: 0;
@@ -61,21 +62,6 @@
 .text:empty:before {
   content: attr(placeholder);
   -webkit-text-fill-color: rgba(55, 53, 47, 0.5);
-}
-
-.nowdragging {
-  opacity: 0.5;
-  background-color: green;
-}
-.dropzone {
-  width: 200px;
-  height: 20px;
-  background: blueviolet;
-  margin: 10px;
-  padding: 10px;
-}
-.dropzone.dragover {
-  background-color: purple;
 }
 
 .heading1 {

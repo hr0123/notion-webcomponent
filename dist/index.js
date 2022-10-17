@@ -44,21 +44,26 @@ class TextInput extends HTMLElement {
             textContainer.ondragstart = handleDragStart;
             textContainer.ondragover = handleDragOver;
             textContainer.ondrop = handleDrop;
+            let dragEl;
+            let overEl;
             function handleDragStart(e) {
-                console.log("START", e.target.parentElement);
                 e.dataTransfer.setData("text/plain", e.target.parentElement.id);
-                e.dataTransfer.dropEffect = "move";
+                dragEl = e.target;
+                dragEl.nextElementSibling.style.backgroundColor = "rgb(228, 238, 251)";
+                dragEl.nextElementSibling.style.borderRadius = "2px";
             }
             function handleDragOver(e) {
+                overEl = e.target;
                 e.preventDefault();
-                e.dataTransfer.dropEffect = "move";
-                console.log("OVER", e.target.id); //올림당한 대상(id)
+                overEl.children[1].style.borderBottom = "4px solid rgb(228, 238, 251)";
             }
             function handleDrop(e) {
+                overEl.children.style.borderBottom = "none";
                 e.preventDefault();
-                const data = e.dataTransfer.getData("text/plain"); //drag해온거 id
-                e.target.parentElement.appendChild(shadow.getElementById(data)); //drop대상의 child로 drag해온거 append
-                console.log("DROP", e.target); //e.target=drop대상(textContainer)
+                const data = e.dataTransfer.getData("text/plain"); //drag해온 요소의 id
+                e.target.parentElement.appendChild(shadow.getElementById(data));
+                dragEl.nextElementSibling.style.backgroundColor = "none";
+                e.target.children[1].style.backgroundColor = "rgb(228, 238, 251)";
             }
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
