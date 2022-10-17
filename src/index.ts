@@ -58,7 +58,7 @@ class TextInput extends HTMLElement {
           "dragover",
           (e) => {
             console.log("drag over", e.target);
-            e.preventDefault(); //drop가능하도록, 기본동작(다른EventLister들?) 막기(false는 이벤트 버블링 설정)
+            e.preventDefault(); //drop가능하도록, 기본동작(다른EventListener들?) 막기(false는 이벤트 버블링 설정)
           },
           false
         );
