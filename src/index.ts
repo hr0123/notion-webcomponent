@@ -66,7 +66,7 @@ class TextInput extends HTMLElement {
         overEl.children[1].style.borderBottom = "4px solid rgb(228, 238, 251)";
       }
       function handleDrop(e: any) {
-        overEl.children.style.borderBottom = "none";
+        overEl.children[1].style.borderBottom = "none";
         e.preventDefault();
         const data = e.dataTransfer.getData("text/plain"); //drag해온 요소의 id
         e.target.parentElement.appendChild(shadow.getElementById(data));
