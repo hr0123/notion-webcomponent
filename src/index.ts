@@ -103,7 +103,9 @@ class TextInput extends HTMLElement {
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "Enter") {
           (createWrapper().children[0].children[1] as HTMLDivElement).focus();
-          // console.log(shadow.activeElement);
+          if (e.target !== shadow.activeElement) {
+            (e.target as HTMLElement).removeAttribute("placeholder");
+          }
           e.preventDefault();
         }
       });
@@ -119,7 +121,6 @@ class TextInput extends HTMLElement {
             currentFocused.nextElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
-          console.log("arrow DOWN!!");
         }
         if ((e as KeyboardEvent).key === "ArrowUp") {
           if (!currentFocused.previousElementSibling.children[0]) return;
@@ -127,7 +128,13 @@ class TextInput extends HTMLElement {
             currentFocused.previousElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
-          console.log("arrow UP!!");
+        }
+        shadow.activeElement.setAttribute(
+          "placeholder",
+          'Type "/" for commands'
+        );
+        if (text !== shadow.activeElement) {
+          text.removeAttribute("placeholder");
         }
       });
 

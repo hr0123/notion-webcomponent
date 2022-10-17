@@ -90,7 +90,9 @@ class TextInput extends HTMLElement {
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
                     createWrapper().children[0].children[1].focus();
-                    // console.log(shadow.activeElement);
+                    if (e.target !== shadow.activeElement) {
+                        e.target.removeAttribute("placeholder");
+                    }
                     e.preventDefault();
                 }
             });
@@ -102,14 +104,16 @@ class TextInput extends HTMLElement {
                         return;
                     currentFocused.nextElementSibling.children[0]
                         .children[1].focus();
-                    console.log("arrow DOWN!!");
                 }
                 if (e.key === "ArrowUp") {
                     if (!currentFocused.previousElementSibling.children[0])
                         return;
                     currentFocused.previousElementSibling.children[0]
                         .children[1].focus();
-                    console.log("arrow UP!!");
+                }
+                shadow.activeElement.setAttribute("placeholder", 'Type "/" for commands');
+                if (text !== shadow.activeElement) {
+                    text.removeAttribute("placeholder");
                 }
             });
             const menuContainer = document.createElement("div");
