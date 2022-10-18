@@ -55,30 +55,45 @@ class TextInput extends HTMLElement {
       let dragEl;
       let overEl;
       let dropEl;
+
       function handleDragStart(e: DragEvent) {
         e.dataTransfer.setData(
           "text/plain",
-          (e.target as HTMLElement).parentElement.id
+          (e.target as HTMLElement).parentElement.id //e.target(=drag하는 dragHandler)의 parentEl(=textContainer) id
         );
         dragEl = (e.target as HTMLElement).nextElementSibling;
         if (dragEl === undefined) return;
         dragEl.style.backgroundColor = "rgb(228, 238, 251)";
         dragEl.style.borderRadius = "2px";
       }
+
       function handleDragOver(e: DragEvent) {
         overEl = (e.target as HTMLElement).children[1];
         e.preventDefault();
         if (overEl === undefined) return;
         overEl.style.borderBottom = "4px solid rgb(228, 238, 251)";
       }
+
       function handleDrop(e: DragEvent) {
         if (overEl === undefined) return;
         overEl.style.borderBottom = "none";
         e.preventDefault();
-        const data = e.dataTransfer.getData("text/plain"); //drag해온 요소의 id
-        (e.target as HTMLElement).parentElement.appendChild(
-          shadow.getElementById(data)
+        const data = e.dataTransfer.getData("text/plain");
+        // 📌순서 비교해서 앞이면 뒤로 가게, 뒤면 앞으로 가게
+        // idArr.indexOf(data) < idArr.indexOf((e.target as HTMLElement).id)
+        // ?
+        // :
+
+        // 📌wrapper의 parent(=shadowroot?)의 child(wrapper)의 nextSibling을 바꿔치기하는거로 수정하기?
+        console.log(
+          (e.target as HTMLElement).parentElement.parentNode, //shadowroot
+          shadow.getElementById(data).firstElementChild
         );
+        (e.target as HTMLElement).parentElement.parentNode.appendChild(
+          //e.target(=drop위치 textContainer)의 parentEl(=wrapper)의 child(=다시 textContainer)를
+          shadow.getElementById(data) //drag해온 (textContainer의 id를 갖는) wrapper(.firstChild => 의 0인덱스 child인 textContainer)로 바꿔치기
+        );
+
         if (dragEl === undefined) return;
         dragEl.style.backgroundColor = "none";
         dropEl = (e.target as HTMLElement).children[1];

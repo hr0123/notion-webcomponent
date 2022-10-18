@@ -48,7 +48,8 @@ class TextInput extends HTMLElement {
             let overEl;
             let dropEl;
             function handleDragStart(e) {
-                e.dataTransfer.setData("text/plain", e.target.parentElement.id);
+                e.dataTransfer.setData("text/plain", e.target.parentElement.id //e.target(=drag하는 dragHandler)의 parentEl(=textContainer) id
+                );
                 dragEl = e.target.nextElementSibling;
                 if (dragEl === undefined)
                     return;
@@ -67,8 +68,18 @@ class TextInput extends HTMLElement {
                     return;
                 overEl.style.borderBottom = "none";
                 e.preventDefault();
-                const data = e.dataTransfer.getData("text/plain"); //drag해온 요소의 id
-                e.target.parentElement.appendChild(shadow.getElementById(data));
+                const data = e.dataTransfer.getData("text/plain");
+                // 📌순서 비교해서 앞이면 뒤로 가게, 뒤면 앞으로 가게
+                // idArr.indexOf(data) < idArr.indexOf((e.target as HTMLElement).id)
+                // ?
+                // :
+                // 📌wrapper의 parent(=shadowroot?)의 child(wrapper)의 nextSibling을 바꿔치기하는거로 수정하기?
+                console.log(e.target.parentElement.parentNode, //shadowroot
+                shadow.getElementById(data).firstElementChild);
+                e.target.parentElement.parentNode.appendChild(
+                //e.target(=drop위치 textContainer)의 parentEl(=wrapper)의 child(=다시 textContainer)를
+                shadow.getElementById(data) //drag해온 (textContainer의 id를 갖는) wrapper(.firstChild => 의 0인덱스 child인 textContainer)로 바꿔치기
+                );
                 if (dragEl === undefined)
                     return;
                 dragEl.style.backgroundColor = "none";
