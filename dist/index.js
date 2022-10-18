@@ -46,6 +46,7 @@ class TextInput extends HTMLElement {
             textContainer.ondrop = handleDrop;
             let dragEl;
             let overEl;
+            let dropEl;
             function handleDragStart(e) {
                 e.dataTransfer.setData("text/plain", e.target.parentElement.id);
                 dragEl = e.target.nextElementSibling;
@@ -71,7 +72,8 @@ class TextInput extends HTMLElement {
                 if (dragEl === undefined)
                     return;
                 dragEl.style.backgroundColor = "none";
-                e.target.children[1].style.backgroundColor = "rgb(228, 238, 251)";
+                dropEl = e.target.children[1];
+                dropEl.style.backgroundColor = "rgb(228, 238, 251)";
             }
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {

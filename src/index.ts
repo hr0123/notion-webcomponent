@@ -52,30 +52,37 @@ class TextInput extends HTMLElement {
       textContainer.ondragstart = handleDragStart;
       textContainer.ondragover = handleDragOver;
       textContainer.ondrop = handleDrop;
-      let dragEl: HTMLElement;
-      let overEl: HTMLElement;
-      function handleDragStart(e: any) {
-        e.dataTransfer.setData("text/plain", e.target.parentElement.id);
-        dragEl = e.target.nextElementSibling;
+      let dragEl;
+      let overEl;
+      let dropEl;
+      function handleDragStart(e: DragEvent) {
+        e.dataTransfer.setData(
+          "text/plain",
+          (e.target as HTMLElement).parentElement.id
+        );
+        dragEl = (e.target as HTMLElement).nextElementSibling;
         if (dragEl === undefined) return;
         dragEl.style.backgroundColor = "rgb(228, 238, 251)";
         dragEl.style.borderRadius = "2px";
       }
-      function handleDragOver(e: any) {
-        overEl = e.target.children[1];
+      function handleDragOver(e: DragEvent) {
+        overEl = (e.target as HTMLElement).children[1];
         e.preventDefault();
         if (overEl === undefined) return;
         overEl.style.borderBottom = "4px solid rgb(228, 238, 251)";
       }
-      function handleDrop(e: any) {
+      function handleDrop(e: DragEvent) {
         if (overEl === undefined) return;
         overEl.style.borderBottom = "none";
         e.preventDefault();
         const data = e.dataTransfer.getData("text/plain"); //drag해온 요소의 id
-        e.target.parentElement.appendChild(shadow.getElementById(data));
+        (e.target as HTMLElement).parentElement.appendChild(
+          shadow.getElementById(data)
+        );
         if (dragEl === undefined) return;
         dragEl.style.backgroundColor = "none";
-        e.target.children[1].style.backgroundColor = "rgb(228, 238, 251)";
+        dropEl = (e.target as HTMLElement).children[1];
+        dropEl.style.backgroundColor = "rgb(228, 238, 251)";
       }
 
       textContainer.addEventListener("keydown", (e: Event) => {
