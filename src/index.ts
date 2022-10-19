@@ -51,6 +51,11 @@ class TextInput extends HTMLElement {
           (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
         );
         e.dataTransfer.dropEffect = "move";
+        shadow
+          .querySelectorAll(".text")
+          .forEach(
+            (el) => ((el as HTMLElement).style.backgroundColor = "white")
+          );
       }
 
       function handleDragOver(e: DragEvent) {
@@ -151,6 +156,9 @@ class TextInput extends HTMLElement {
       });
       shadow.addEventListener("click", () => {
         menuContainer.parentNode?.removeChild(menuContainer);
+        // console.log(text.style.backgroundColor);
+        // (shadow.querySelector(".text") as HTMLElement).style.backgroundColor =
+        //   "white";
       });
 
       const menuItems = [
