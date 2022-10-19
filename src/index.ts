@@ -48,7 +48,7 @@ class TextInput extends HTMLElement {
       function handleDragStart(e: DragEvent) {
         e.dataTransfer.setData(
           "text/plain",
-          (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
+          (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id
         );
         e.dataTransfer.dropEffect = "move";
         shadow
