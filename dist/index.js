@@ -32,52 +32,52 @@ class TextInput extends HTMLElement {
             textContainer.appendChild(dragHandler);
             textContainer.appendChild(text);
             textContainer.addEventListener("mouseover", () => {
-                console.log("MOUSE OVER");
                 dragHandler.setAttribute("class", "draghandler-show");
             });
             textContainer.addEventListener("mouseleave", () => {
-                console.log("MOUSE LEAVE");
                 dragHandler.setAttribute("class", "draghandler-hidden");
             });
             textContainer.ondragstart = handleDragStart;
             textContainer.ondragover = handleDragOver;
             textContainer.ondrop = handleDrop;
             textContainer.ondragend = handleDragEnd;
-            let overEl;
             function handleDragStart(e) {
                 e.dataTransfer.setData("text/plain", e.target.parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
                 );
                 e.dataTransfer.dropEffect = "move";
+                e.target.nextElementSibling.style.borderBottom = "none";
             }
             function handleDragOver(e) {
                 e.preventDefault();
                 e.dataTransfer.dropEffect = "move";
-                overEl = e.target.children[1]; //over text
-                if (overEl === undefined)
+                let overText = e.target.children[1];
+                if (overText === undefined)
                     return;
-                overEl.style.borderBottom = "4px solid rgb(228, 238, 251)";
+                overText.style.borderBottom = "4px solid rgb(228, 238, 251)";
+                console.log(shadow.querySelector(".text"));
+                shadow
+                    .querySelectorAll(".text")
+                    .forEach((el) => el !== overText &&
+                    (el.style.borderBottom = "none"));
             }
             function handleDrop(e) {
                 e.preventDefault();
-                if (overEl === undefined)
-                    return;
-                overEl.style.borderBottom = "none";
+                const allTextContainers = shadow.querySelectorAll(".text-container"); // 전체textContainer들의 배열 만들어, 그 안에서 drag와 drop의 인덱스 순서 비교
                 const data = e.dataTransfer.getData("text/plain"); //drag textContainer의 id
-                let allTextContainer = shadow.querySelectorAll(".text-container"); // 전체textContainer들의 배열 만들어, 그 안에서 drag와 drop의 인덱스 순서 비교
-                let dragIndex = Array.from(allTextContainer).indexOf(shadow.getElementById(data));
-                let dropTextContainer = e.target;
-                let dropIndex = Array.from(allTextContainer).indexOf(dropTextContainer);
+                const dragIndex = Array.from(allTextContainers).indexOf(shadow.getElementById(data));
+                const dropTextContainer = e.target;
+                const dropIndex = Array.from(allTextContainers).indexOf(dropTextContainer);
                 if (dragIndex === -1 || dragIndex > dropIndex) {
                     dropTextContainer.parentElement.insertBefore(shadow.getElementById(data), dropTextContainer);
                 }
                 else if (dragIndex < dropIndex) {
                     dropTextContainer.parentElement.appendChild(shadow.getElementById(data));
                 }
+                dropTextContainer.children[1].style.borderBottom =
+                    "none";
             }
             function handleDragEnd(e) {
-                let dragEndText = e.target
-                    .nextElementSibling;
-                dragEndText.style.backgroundColor = "rgb(228, 238, 251)";
+                e.target.nextElementSibling.style.backgroundColor = "rgb(228, 238, 251)";
             }
             textContainer.addEventListener("keydown", (e) => {
                 if (e.key === "Enter") {
@@ -174,7 +174,6 @@ class TextInput extends HTMLElement {
                 menuNameWrapper.appendChild(menuSummary);
             });
             function onClickMenu(item) {
-                console.log("MENU CLICKED!", text);
                 switch (item) {
                     case menuItems[0]: {
                         text.setAttribute("class", "text");
