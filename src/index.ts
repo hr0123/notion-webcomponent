@@ -18,8 +18,8 @@ class TextInput extends HTMLElement {
 
       const inputId = String(Math.floor(Math.random() * 1000000000));
       // wrapper.setAttribute("id", inputId);
-      let idArr = Array.prototype;
-      idArr.push(inputId);
+      // let idArr = Array.prototype;
+      // idArr.push(inputId);
 
       const textContainer = document.createElement("div");
       textContainer.setAttribute("class", "text-container");
@@ -62,7 +62,7 @@ class TextInput extends HTMLElement {
           (e.target as HTMLElement).parentElement.id //e.target(=drag하는 dragHandler)의 parentEl(=textContainer) id
         );
         e.dataTransfer.dropEffect = "move";
-        dragEl = (e.target as HTMLElement).nextElementSibling; //=text
+        dragEl = (e.target as HTMLElement).nextElementSibling; //text
         if (dragEl === undefined) return;
         dragEl.style.backgroundColor = "rgb(228, 238, 251)";
         dragEl.style.borderRadius = "2px";
@@ -76,36 +76,28 @@ class TextInput extends HTMLElement {
         overEl.style.borderBottom = "4px solid rgb(228, 238, 251)";
       }
 
-      // 📌textContainer들의 배열 만들어, 그 안에서 drag와 drop의 인덱스 순서 비교
-      let allTextContainer = shadow.querySelectorAll(".text-container");
       function handleDrop(e: DragEvent) {
         if (overEl === undefined) return;
         overEl.style.borderBottom = "none";
         e.preventDefault();
         const data = e.dataTransfer.getData("text/plain"); //drag해온 textContainer의 id
-        // console.log(
-        //   "DRAG:",
-        //   Array.from(allTextContainer).indexOf(shadow.getElementById(data))
-        // );
-        // console.log(
-        //   "DROP:",
-        //   Array.from(allTextContainer).indexOf(e.target as HTMLElement)
-        // );
-        let dragging = Array.from(allTextContainer).indexOf(
-          shadow.getElementById(data)
+        // 📌textContainer들의 배열 만들어, 그 안에서 drag와 drop의 인덱스 순서 비교
+        let allTextContainer = shadow.querySelectorAll(".text-container");
+        let dragIndex = Array.from(allTextContainer).indexOf(
+          shadow.getElementById(data) //drar해온 textContainer
         );
-        let dropPlace = Array.from(allTextContainer).indexOf(
-          e.target as HTMLElement
+        let dropIndex = Array.from(allTextContainer).indexOf(
+          e.target as HTMLElement //drop하려는 위치의 textContainer
         );
-        if (dragging === -1 || dragging > dropPlace) {
+        console.log("DRAG index:", dragIndex, "DROP index:", dropIndex);
+        if (dragIndex === -1 || dragIndex > dropIndex) {
           (e.target as HTMLElement).parentElement.insertBefore(
             shadow.getElementById(data),
             e.target as HTMLElement
           );
-        } else if (dragging < dropPlace) {
+        } else if (dragIndex < dropIndex) {
           (e.target as HTMLElement).parentElement.appendChild(
-            //e.target(=drop위치 textContainer)의 parentEl(=wrapper)의 child(=textContainer)위치에
-            shadow.getElementById(data) //(wrapper id 주석)/drag해온 textContainer를 추가
+            shadow.getElementById(data)
           );
         }
 
