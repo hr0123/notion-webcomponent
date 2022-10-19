@@ -47,17 +47,15 @@ class TextInput extends HTMLElement {
         dragHandler.setAttribute("class", "draghandler-hidden");
       });
 
-      //https://developer.mozilla.org/ko/docs/Web/API/HTML_Drag_and_Drop_API#%EC%96%B4%EB%96%A4_%EA%B2%83%EC%9D%B4_draggable%EC%9D%B8%EC%A7%80_%ED%99%95%EC%9D%B8%ED%95%98%EA%B8%B0
       textContainer.ondragstart = handleDragStart;
       textContainer.ondragover = handleDragOver;
       textContainer.ondrop = handleDrop;
       textContainer.ondragend = handleDragEnd;
       let overEl;
       function handleDragStart(e: DragEvent) {
-        //hold the data that is being dragged
         e.dataTransfer.setData(
           "text/plain",
-          (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id
+          (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
         );
         e.dataTransfer.dropEffect = "move";
       }
@@ -111,20 +109,19 @@ class TextInput extends HTMLElement {
 
       textContainer.addEventListener("keydown", (e: Event) => {
         const currentFocusedId = (<any>e).path[1].id;
-        const currentFocused = shadow.getElementById(
-          currentFocusedId
-        ) as HTMLElement;
+        const currentFocusedWrapper = shadow.getElementById(currentFocusedId)
+          .parentElement as HTMLElement;
         if ((e as KeyboardEvent).key === "ArrowDown") {
-          if (!currentFocused.nextElementSibling) return;
+          if (!currentFocusedWrapper.nextElementSibling) return;
           (
-            currentFocused.nextElementSibling.children[0]
+            currentFocusedWrapper.nextElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
         }
         if ((e as KeyboardEvent).key === "ArrowUp") {
-          if (!currentFocused.previousElementSibling.children[0]) return;
+          if (!currentFocusedWrapper.previousElementSibling.children[0]) return;
           (
-            currentFocused.previousElementSibling.children[0]
+            currentFocusedWrapper.previousElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
         }
