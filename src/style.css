@@ -20,6 +20,9 @@
   align-items: flex-start;
   /* height: auto; */
   margin: auto;
+  /* background-color: red;
+  position: relative;
+  z-index: 1; */
 }
 
 .text-container {
@@ -110,9 +113,8 @@
 }
 
 .menu-container {
-  margin-left: 25px;
+  margin-left: 45px;
   padding: 4px 15px;
-  /* position: absolute; */
   display: flex;
   flex-direction: column;
   justify-content: space-around;
@@ -128,6 +130,10 @@
   font-size: 14px;
   line-height: 120%;
   user-select: none;
+  background-color: blue;
+  /* position: absolute;
+  z-index: 2;
+  margin-top: 40px; */
 }
 
 .menu-header {
