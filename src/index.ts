@@ -2,12 +2,10 @@ class TextInput extends HTMLElement {
   constructor() {
     super();
     const shadow = this.attachShadow({ mode: "open" });
-
     const linkElem = document.createElement("link");
     linkElem.setAttribute("rel", "stylesheet");
     linkElem.setAttribute("href", "style.css");
     shadow.appendChild(linkElem);
-
     const initialWrapper = createWrapper();
     shadow.appendChild(initialWrapper);
 
@@ -15,18 +13,15 @@ class TextInput extends HTMLElement {
       const wrapper = document.createElement("div");
       wrapper.setAttribute("class", "wrapper");
       shadow.appendChild(wrapper);
-
       const inputId = String(Math.floor(Math.random() * 1000000000));
       // wrapper.setAttribute("id", inputId);
       // let idArr = Array.prototype;
       // idArr.push(inputId);
-
       const textContainer = document.createElement("div");
       textContainer.setAttribute("class", "text-container");
       textContainer.setAttribute("id", inputId);
       textContainer.setAttribute("draggable", "true");
       wrapper.appendChild(textContainer);
-
       const dragHandler = document.createElement("img");
       dragHandler.setAttribute("class", "draghandler-hidden");
       dragHandler.setAttribute("src", "../public/images/drag.png");
@@ -59,7 +54,6 @@ class TextInput extends HTMLElement {
         );
         e.dataTransfer.dropEffect = "move";
       }
-
       function handleDragOver(e: DragEvent) {
         e.preventDefault();
         e.dataTransfer.dropEffect = "move";
@@ -67,7 +61,6 @@ class TextInput extends HTMLElement {
         if (overEl === undefined) return;
         overEl.style.borderBottom = "4px solid rgb(228, 238, 251)";
       }
-
       function handleDrop(e: DragEvent) {
         e.preventDefault();
         if (overEl === undefined) return;
@@ -90,7 +83,6 @@ class TextInput extends HTMLElement {
           );
         }
       }
-
       function handleDragEnd(e: DragEvent) {
         let dragEndText = (e.target as HTMLElement)
           .nextElementSibling as HTMLElement;
@@ -108,20 +100,19 @@ class TextInput extends HTMLElement {
       });
 
       textContainer.addEventListener("keydown", (e: Event) => {
-        const currentFocusedId = (<any>e).path[1].id;
-        const currentFocusedWrapper = shadow.getElementById(currentFocusedId)
+        const focusedWrapper = shadow.getElementById((<any>e).path[1].id)
           .parentElement as HTMLElement;
         if ((e as KeyboardEvent).key === "ArrowDown") {
-          if (!currentFocusedWrapper.nextElementSibling) return;
+          if (!focusedWrapper.nextElementSibling) return;
           (
-            currentFocusedWrapper.nextElementSibling.children[0]
+            focusedWrapper.nextElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
         }
         if ((e as KeyboardEvent).key === "ArrowUp") {
-          if (!currentFocusedWrapper.previousElementSibling.children[0]) return;
+          if (!focusedWrapper.previousElementSibling.children[0]) return;
           (
-            currentFocusedWrapper.previousElementSibling.children[0]
+            focusedWrapper.previousElementSibling.children[0]
               .children[1] as HTMLElement
           ).focus();
         }
@@ -136,7 +127,6 @@ class TextInput extends HTMLElement {
 
       const menuContainer = document.createElement("div");
       menuContainer.setAttribute("class", "menu-container");
-
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "/") {
           wrapper.appendChild(menuContainer);
@@ -144,7 +134,6 @@ class TextInput extends HTMLElement {
           menuContainer.parentNode?.removeChild(menuContainer);
         }
       });
-
       const menuHeader = document.createElement("div");
       menuHeader.setAttribute("class", "menu-header");
       menuHeader.innerText = "BASIC BLOCKS";
@@ -185,7 +174,6 @@ class TextInput extends HTMLElement {
         menuBlock.setAttribute("class", "menu-block");
         menuBlock.addEventListener("click", () => onClickMenu(item));
         menuContainer.appendChild(menuBlock);
-
         const menuIcon = document.createElement("img");
         menuIcon.setAttribute("class", "menu-icon");
         menuIcon.setAttribute("src", item.img);
@@ -193,7 +181,6 @@ class TextInput extends HTMLElement {
         menuNameWrapper.setAttribute("class", "menu-namewrapper");
         menuBlock.appendChild(menuIcon);
         menuBlock.appendChild(menuNameWrapper);
-
         const menuName = document.createElement("div");
         menuName.setAttribute("class", "menu-name");
         menuName.innerText = item.name;

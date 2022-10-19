@@ -89,19 +89,18 @@ class TextInput extends HTMLElement {
                 }
             });
             textContainer.addEventListener("keydown", (e) => {
-                const currentFocusedId = e.path[1].id;
-                const currentFocusedWrapper = shadow.getElementById(currentFocusedId)
+                const focusedWrapper = shadow.getElementById(e.path[1].id)
                     .parentElement;
                 if (e.key === "ArrowDown") {
-                    if (!currentFocusedWrapper.nextElementSibling)
+                    if (!focusedWrapper.nextElementSibling)
                         return;
-                    currentFocusedWrapper.nextElementSibling.children[0]
+                    focusedWrapper.nextElementSibling.children[0]
                         .children[1].focus();
                 }
                 if (e.key === "ArrowUp") {
-                    if (!currentFocusedWrapper.previousElementSibling.children[0])
+                    if (!focusedWrapper.previousElementSibling.children[0])
                         return;
-                    currentFocusedWrapper.previousElementSibling.children[0]
+                    focusedWrapper.previousElementSibling.children[0]
                         .children[1].focus();
                 }
                 shadow.activeElement.setAttribute("placeholder", 'Type "/" for commands');
