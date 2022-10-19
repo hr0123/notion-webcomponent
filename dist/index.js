@@ -45,7 +45,6 @@ class TextInput extends HTMLElement {
                 e.dataTransfer.setData("text/plain", e.target.parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
                 );
                 e.dataTransfer.dropEffect = "move";
-                e.target.nextElementSibling.style.borderBottom = "none";
             }
             function handleDragOver(e) {
                 e.preventDefault();
@@ -54,7 +53,6 @@ class TextInput extends HTMLElement {
                 if (overText === undefined)
                     return;
                 overText.style.borderBottom = "4px solid rgb(228, 238, 251)";
-                console.log(shadow.querySelector(".text"));
                 shadow
                     .querySelectorAll(".text")
                     .forEach((el) => el !== overText &&
@@ -75,6 +73,8 @@ class TextInput extends HTMLElement {
                 }
                 dropTextContainer.children[1].style.borderBottom =
                     "none";
+                dropTextContainer.children[1].style.backgroundColor =
+                    "white";
             }
             function handleDragEnd(e) {
                 e.target.nextElementSibling.style.backgroundColor = "rgb(228, 238, 251)";

@@ -51,9 +51,6 @@ class TextInput extends HTMLElement {
           (e.target as HTMLElement).parentElement.id //drag dragHandler의 textContainer의 id(hold the data that is being dragged)
         );
         e.dataTransfer.dropEffect = "move";
-        (
-          (e.target as HTMLElement).nextElementSibling as HTMLElement
-        ).style.borderBottom = "none";
       }
 
       function handleDragOver(e: DragEvent) {
@@ -62,7 +59,6 @@ class TextInput extends HTMLElement {
         let overText = (e.target as HTMLElement).children[1] as HTMLElement;
         if (overText === undefined) return;
         overText.style.borderBottom = "4px solid rgb(228, 238, 251)";
-        console.log(shadow.querySelector(".text"));
         shadow
           .querySelectorAll(".text")
           .forEach(
@@ -94,6 +90,8 @@ class TextInput extends HTMLElement {
         }
         (dropTextContainer.children[1] as HTMLElement).style.borderBottom =
           "none";
+        (dropTextContainer.children[1] as HTMLElement).style.backgroundColor =
+          "white";
       }
 
       function handleDragEnd(e: DragEvent) {
