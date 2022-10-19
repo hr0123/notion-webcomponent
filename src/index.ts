@@ -138,6 +138,10 @@ class TextInput extends HTMLElement {
 
       const menuContainer = document.createElement("div");
       menuContainer.setAttribute("class", "menu-container");
+      const menuHeader = document.createElement("div");
+      menuHeader.setAttribute("class", "menu-header");
+      menuHeader.innerText = "BASIC BLOCKS";
+      menuContainer.appendChild(menuHeader);
       textContainer.addEventListener("keydown", (e: Event) => {
         if ((e as KeyboardEvent).key === "/") {
           wrapper.appendChild(menuContainer);
@@ -145,10 +149,9 @@ class TextInput extends HTMLElement {
           menuContainer.parentNode?.removeChild(menuContainer);
         }
       });
-      const menuHeader = document.createElement("div");
-      menuHeader.setAttribute("class", "menu-header");
-      menuHeader.innerText = "BASIC BLOCKS";
-      menuContainer.appendChild(menuHeader);
+      shadow.addEventListener("click", () => {
+        menuContainer.parentNode?.removeChild(menuContainer);
+      });
 
       const menuItems = [
         {
@@ -179,7 +182,6 @@ class TextInput extends HTMLElement {
           placeholder: "List",
         },
       ];
-
       menuItems.map((item) => {
         const menuBlock = document.createElement("div");
         menuBlock.setAttribute("class", "menu-block");
